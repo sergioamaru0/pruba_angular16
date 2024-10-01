@@ -1,0 +1,18 @@
+/* Eliminar el fondo azul predeterminado en la navegación activa */
+a.router-link-active {
+    color: #2563eb; /* Cambia el color activo a azul */
+  }
+  
+  @media (min-width: 768px) {
+    /* Ocultar el menú desplegable en pantallas grandes */
+    .mobile-menu {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    /* Mostrar el menú desplegable en pantallas pequeñas */
+    .desktop-menu {
+      display: none;
+    }
+  }

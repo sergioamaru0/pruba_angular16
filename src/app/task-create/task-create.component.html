@@ -1,0 +1,72 @@
+<div class="flex justify-center items-center min-h-screen">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl">
+    <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">Crear Tarea</h1>
+  
+    <!-- Formulario reactivo -->
+    <form [formGroup]="taskForm" (ngSubmit)="submitTask()">
+
+      <!-- Entrada del nombre de la tarea -->
+      <div class="mb-4">
+        <label for="title" class="block text-gray-700">Nombre de la Tarea</label>
+        <input type="text" formControlName="title" class="w-full px-4 py-2 border rounded-md" placeholder="Ejemplo: Diseñar dropdown">
+        <div *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched" class="text-red-500">
+          El nombre es obligatorio.
+        </div>
+      </div>
+
+      <!-- Entrada de la fecha límite -->
+      <div class="mb-6">
+        <label for="deadline" class="block text-gray-700">Fecha Límite</label>
+        <input type="date" formControlName="deadline" class="w-full px-4 py-2 border rounded-md">
+      </div>
+
+      <!-- Sección de personas asociadas -->
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Personas Asociadas</h2>
+
+      <div formArrayName="people" >
+        <div *ngFor="let person of people.controls; let i = index" [formGroupName]="i" class="mb-4 bg-slate-200 p-2 rounded ">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gray-900">Nombre Completo</label>
+              <input type="text" formControlName="fullName" class="w-full px-4 py-2 border rounded-md" placeholder="Ejemplo: Sergio cubillos">
+              <div *ngIf="person.get('fullName')?.invalid && person.get('fullName')?.touched" class="text-red-500">
+                El nombre debe tener al menos 5 caracteres.
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-gray-900">Edad</label>
+              <input type="number" formControlName="age" class="w-full px-4 py-2 border rounded-md" placeholder="+18">
+              <div *ngIf="person.get('age')?.invalid && person.get('age')?.touched" class="text-red-500">
+                La edad mínima es 18 años.
+              </div>
+            </div>
+          </div>
+
+          <!-- Habilidades -->
+          <div class="mt-4">
+            <label class="block text-gray-900">Habilidades</label>
+            <div formArrayName="skills">
+              <div *ngFor="let skill of getSkills(i).controls; let j = index" class="skill flex items-center">
+                <input [formControlName]="j" type="text" class="w-full px-4 py-2 border rounded-md" placeholder="Ejemplo: HTML">
+                <button type="button" (click)="removeSkill(i, j)" class="ml-2 bg-red-500 text-white px-2 py-1 rounded-md">Eliminar</button>
+              </div>
+            </div>
+            <button type="button" (click)="addSkill(i)" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md">Agregar Habilidad</button>
+          </div>
+
+          <!-- Botón para eliminar persona -->
+          <button type="button" (click)="removePerson(i)" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-md">Eliminar Persona</button>
+        </div>
+      </div>
+
+      <!-- Botón para agregar persona -->
+      <button type="button" (click)="addPerson()" class="mt-6 bg-blue-500 text-white px-4 py-2 rounded-md">Agregar Persona</button>
+
+      <!-- Botón para enviar el formulario -->
+      <div class="text-center mt-8">
+        <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded-md">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
